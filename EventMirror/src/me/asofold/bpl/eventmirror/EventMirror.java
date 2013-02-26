@@ -1,5 +1,6 @@
 package me.asofold.bpl.eventmirror;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -82,13 +83,21 @@ public class EventMirror extends JavaPlugin implements Listener {
 		else{
 			cn = clazz.getName();
 		}
-		player.sendMessage("[EventMirror] " + cn + ((event instanceof Cancellable) ? (((Cancellable) event).isCancelled() ? " (cancelled)" : "" ): "") + " : " + info);
+		final String sInfo;
+		if (info == null){
+			sInfo = "no info";
+		}
+		else{
+			if (info instanceof Object[]) sInfo = Arrays.toString((Object[]) info);
+			else sInfo = info.toString();
+		}
+		player.sendMessage("[EventMirror] " + cn + ((event instanceof Cancellable) ? (((Cancellable) event).isCancelled() ? " (cancelled)" : "" ): "") + " : " + sInfo);
 		return true;
 	}
 	
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = false)
 	public final void onPlayerTeleport(final PlayerTeleportEvent event){
-		checkMirror(event.getPlayer(), event, event.getTo());
+		checkMirror(event.getPlayer(), event, new Object[]{event.getCause(), event.getFrom(), event.getTo()});
 	}
 	
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = false)
