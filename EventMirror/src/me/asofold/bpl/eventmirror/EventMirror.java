@@ -22,6 +22,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -146,6 +147,11 @@ public class EventMirror extends JavaPlugin implements Listener {
 		if (entity instanceof Player){
 			checkMirror(entity, event, entity.getLocation());
 		}
+	}
+	
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = false)
+	public final void onPlayerSprint(final PlayerToggleSprintEvent event){
+		checkMirror(event.getPlayer(), event, "sprint=" + event.isSprinting() + " / food=" + event.getPlayer().getFoodLevel());
 	}
 	
 }
