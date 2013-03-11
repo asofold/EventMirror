@@ -21,6 +21,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
@@ -152,6 +154,22 @@ public class EventMirror extends JavaPlugin implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = false)
 	public final void onPlayerSprint(final PlayerToggleSprintEvent event){
 		checkMirror(event.getPlayer(), event, "sprint=" + event.isSprinting() + " / food=" + event.getPlayer().getFoodLevel());
+	}
+	
+	@EventHandler(priority=EventPriority.MONITOR)
+	public final void onPlayerQuit(final PlayerQuitEvent event){
+		onLeave(event.getPlayer());
+	}
+
+	@EventHandler(priority=EventPriority.MONITOR)
+	public final void onPlayerKick(final PlayerKickEvent event){
+		onLeave(event.getPlayer());
+	}
+	
+	private void onLeave(final Player player) {
+		if (players.contains(player.getName())){
+			System.out.println("[EventMirror] Player quits: " + player.getName() + " sleeping=" + player.isSleeping() + " allowFlight=" + player.getAllowFlight() + " flying=" + player.isFlying());
+		}
 	}
 	
 }
