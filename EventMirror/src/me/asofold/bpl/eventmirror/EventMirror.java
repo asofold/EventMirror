@@ -20,6 +20,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -154,6 +155,11 @@ public class EventMirror extends JavaPlugin implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = false)
 	public final void onPlayerSprint(final PlayerToggleSprintEvent event){
 		checkMirror(event.getPlayer(), event, "sprint=" + event.isSprinting() + " / food=" + event.getPlayer().getFoodLevel());
+	}
+	
+	@EventHandler(priority=EventPriority.MONITOR)
+	public final void onInvClick(final InventoryClickEvent event){
+		checkMirror(event.getWhoClicked(), event, "slot=" + event.getSlot() + " shift=" + event.isShiftClick());
 	}
 	
 	@EventHandler(priority=EventPriority.MONITOR)
