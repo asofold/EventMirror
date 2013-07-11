@@ -1,6 +1,6 @@
 name: EventMirror
 main: me.asofold.bpl.eventmirror.EventMirror
-version: 1.5.0
+version: ${version}-b${BUILD_NUMBER}
 commands:
   eventmirror:
     usage: "/<command> To toggle receiving event mirror messages."
